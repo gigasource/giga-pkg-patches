@@ -4,7 +4,7 @@ module.exports = {
   pkg: {
     patches: {
       'dist/phantom.js': [
-        '\$\{__dirname\}/shim/index.js',
+        '`\$\{__dirname\}/shim/index.js`',
         '_path.resolve(process.argv[0], \'../shim/index.js\')'
       ]
     },
