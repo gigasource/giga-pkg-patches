@@ -10,4 +10,6 @@ fs.readFileSync = (_path, options) => {
   return oldReadFileSync(_path, options);
 };
 
+mock('usb', require(path.resolve(process.argv[0], '../usb.node')));
+mock('serialport', require(path.resolve(process.argv[0], '../serialport.node')));
 mock(path.resolve(__dirname, '../pkg/dictionary/phantom.js'), require('./patches/phantom.js'));
