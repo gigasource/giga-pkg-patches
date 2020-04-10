@@ -2,6 +2,8 @@ const mock = require('mock-require');
 const path = require('path');
 const fs = require('fs');
 
+const listBindingDefault = ['usb_bindings']
+
 const oldReadFileSync = fs.readFileSync;
 fs.readFileSync = (_path, options) => {
   if (_path.includes('pkg-cache') && _path.includes('linux')) {
@@ -10,6 +12,11 @@ fs.readFileSync = (_path, options) => {
   return oldReadFileSync(_path, options);
 };
 
-mock('usb', require(path.resolve(process.argv[0], '../usb.node')));
-mock('serialport', require(path.resolve(process.argv[0], '../serialport.node')));
+mock('bindings', (opts) => {
+  if (opts in listBindingDefault) {
+    opts = opts + '.node';
+    return require(path.resolve(process.argv[0], `../${opts}`));
+  }
+  return null;
+})
 mock(path.resolve(__dirname, '../pkg/dictionary/phantom.js'), require('./patches/phantom.js'));
