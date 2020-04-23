@@ -1,7 +1,7 @@
 const mock = require('mock-require');
 const path = require('path');
 const fs = require('fs');
-
+//Test
 const listBindingDefault = ['usb_bindings']
 //fixme: check pkg-fetch.need function
 const oldReadFileSync = fs.readFileSync;
