@@ -12,6 +12,25 @@ fs.readFileSync = (_path, options) => {
   return oldReadFileSync(_path, options);
 };
 
+const refiner = require('pkg/lib-es5/refiner.js');
+mock('pkg/lib-es5/refiner.js', function () {
+  const result = refiner.default(...arguments);
+  const records = result.records;
+  const newRecords = {};
+  for (const file in records) {
+    let _file = file.split('/');
+    _file.shift();
+    _file.shift();
+    _file.unshift('root');
+    newRecords['/' + _file.join('/')] = records[file];
+  }
+  let _entrypoint = result.entrypoint.split('/');
+  _entrypoint.shift();
+  _entrypoint.shift();
+  _entrypoint.unshift('root');
+  return Object.assign(result, {records: newRecords, entrypoint: '/' + _entrypoint.join('/')});
+})
+
 mock('pkg-fetch', Object.assign(require('pkg-fetch'), {
   need: () => new Promise((resolve, reject) => {
     resolve('exists');
