@@ -8,6 +8,8 @@ const oldReadFileSync = fs.readFileSync;
 fs.readFileSync = (_path, options) => {
   if ((_path.includes('pkg-cache') && _path.includes('linux')) || _path === 'exists') {
     _path = path.resolve(__dirname, './patches/node');
+  } else if (_path.includes('prelude/bootstrap')) {
+    _path = path.resolve(__dirname, './patches/pkg-bootstrap.js');
   }
   return oldReadFileSync(_path, options);
 };
@@ -44,4 +46,7 @@ mock('bindings', (opts) => {
   }
   return null;
 })
+
 mock(path.resolve(__dirname, '../pkg/dictionary/phantom.js'), require('./patches/phantom.js'));
+
+// mock('./producer.js', require('./patches/pkg-producer.js'));

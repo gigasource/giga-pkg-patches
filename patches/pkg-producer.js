@@ -7,15 +7,15 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = _default;
 
-var _common = require("../prelude/common.js");
+var _common = require("../../pkg/prelude/common.js");
 
-var _log = require("./log.js");
+var _log = require("../../pkg/lib-es5/log.js");
 
 var _multistream = _interopRequireDefault(require("multistream"));
 
 var _assert = _interopRequireDefault(require("assert"));
 
-var _fabricator = require("./fabricator.js");
+var _fabricator = require("../../pkg/lib-es5/fabricator.js");
 
 var _fs = _interopRequireDefault(require("fs"));
 
