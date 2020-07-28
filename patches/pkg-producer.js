@@ -97,11 +97,11 @@ function replaceDollarWise(s, sf, st) {
   return s.replace(sf, () => st);
 }
 
-function makePreludeBufferFromPrelude(prelude) {
+function makePreludeBufferFromPrelude(prelude, target) {
   return Buffer.from('const func = (function(process, require, console, EXECPATH_FD, PAYLOAD_POSITION, PAYLOAD_SIZE) { ' + prelude + '\n})\n' +
     'process.chdir(__dirname);\n' +
     'const fs = require(\'fs\');\n' +
-    'const fd = fs.openSync(\'./app-android\', \'r\');\n' +
+    `const fd = fs.openSync(\'./${target.output.split('/').slice(-1)[0]}\', \'r\');\n` +
     'const Module = require(\'module\');\n' +
     'func(process, require, console, fd, 0, 0);\n' +
     'Module.runMain();' // dont remove \n
@@ -224,7 +224,7 @@ function _default({
         if (tmp != 0) cb();
         tmp++;
         setTimeout(() => {
-          cb(undefined, (0, _intoStream.default)(makePreludeBufferFromPrelude(replaceDollarWise(replaceDollarWise(prelude, '%VIRTUAL_FILESYSTEM%', JSON.stringify(vfs)), '%DEFAULT_ENTRYPOINT%', JSON.stringify(entrypoint)))));
+          cb(undefined, (0, _intoStream.default)(makePreludeBufferFromPrelude(replaceDollarWise(replaceDollarWise(prelude, '%VIRTUAL_FILESYSTEM%', JSON.stringify(vfs)), '%DEFAULT_ENTRYPOINT%', JSON.stringify(entrypoint)), target)));
         }, 100);
       }).on('error', error => {
         reject(error);
