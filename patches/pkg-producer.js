@@ -99,7 +99,10 @@ function replaceDollarWise(s, sf, st) {
 
 function makePreludeBufferFromPrelude(prelude, target) {
   return Buffer.from('const func = (function(process, require, console, EXECPATH_FD, PAYLOAD_POSITION, PAYLOAD_SIZE) { ' + prelude + '\n})\n' +
-    'process.chdir(__dirname);\n' +
+    'try {' +
+      'process.chdir(__dirname);\n' +
+    '} catch (err) {\n' +
+    '}\n' +
     'const fs = require(\'fs\');\n' +
     `const fd = fs.openSync(\'./${target.output.split('/').slice(-1)[0]}\', \'r\');\n` +
     'const Module = require(\'module\');\n' +
