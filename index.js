@@ -50,3 +50,4 @@ mock('bindings', (opts) => {
 mock(path.resolve(__dirname, '../pkg/dictionary/phantom.js'), require('./patches/phantom.js'));
 
 mock('pkg/lib-es5/producer.js', require('./patches/pkg-producer.js'));
+mock('pkg/lib-es5/packer.js', require('./patches/pkg-packer.js'));
