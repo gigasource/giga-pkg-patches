@@ -159,7 +159,7 @@ function packer({
     }
   }
 
-  const prelude = `\nconst { Worker, isMainThread, parentPort, workerData } = require('worker_threads')\nreturn (function (REQUIRE_COMMON, VIRTUAL_FILESYSTEM, DEFAULT_ENTRYPOINT) { ${bootstrapText}\n})(function (exports) {\n${commonText}\n},\n${'%VIRTUAL_FILESYSTEM%'}\n,\nworkerData ? workerData : ${'%DEFAULT_ENTRYPOINT%'}\n);`;
+  const prelude = `\nconst { workerData } = require('worker_threads')\nreturn (function (REQUIRE_COMMON, VIRTUAL_FILESYSTEM, DEFAULT_ENTRYPOINT) { ${bootstrapText}\n})(function (exports) {\n${commonText}\n},\n${'%VIRTUAL_FILESYSTEM%'}\n,\n(workerData && workerData.file) ? workerData.file : ${'%DEFAULT_ENTRYPOINT%'}\n);`;
   return {
     prelude,
     entrypoint,
